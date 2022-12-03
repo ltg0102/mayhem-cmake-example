@@ -9,15 +9,13 @@ RUN apt-get update && \
 ADD . /mayhem-cmake-example
 WORKDIR /mayhem-cmake-example
 
-## TODO: ADD YOUR BUILD INSTRUCTIONS HERE.
-RUN mkdir build
-WORKDIR /mayhem-cmake-example/build
-RUN CC=clang CXX=clang cmake ..
-RUN make
+RUN mkdir build && \
+    cd build/ && \
+    CC=clang CXX=clang++ cmake .. && \
+    make
 
 # Package Stage
 FROM ubuntu:20.04
 
 ## TODO: Change <Path in Builder Stage>
-COPY --from=builder  /mayhem-cmake-example/build/fuzzme /
-
+COPY --from=builder /mayhem-cmake-example/build/fuzzme /
